@@ -15,7 +15,7 @@ function App() {
           <Route path="upload-song" element={<UploadForm/>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-        <Footer />
+       
       </div>
     </Router>
   );
