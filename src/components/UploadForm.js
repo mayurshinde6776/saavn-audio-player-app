@@ -33,7 +33,7 @@ const UploadForm = () => {
   };
 
   const handleUpload = () => {
-    // Perform validation or additional checks if needed
+    
     let hasError = false;
 
     // Check if title is empty
