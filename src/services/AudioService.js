@@ -12,22 +12,25 @@ class AudioService {
     this.playlist = playlist;
   }
 
-  playAudio(song) {
+  playAudio(song, playedByCard = false) {
     this.currentSongIndex = this.playlist.indexOf(song);
     this.audioPlayer.src = song.audioDataUrl;
-  
+
     // Add an event listener for the 'canplay' event
     this.audioPlayer.addEventListener('canplay', () => {
-      // Now that the audio has loaded, play it
-      this.audioPlayer.play();
+      // Check if the user has interacted
+      if (playedByCard) {
+        // Now that the audio has loaded, play it
+        this.audioPlayer.play();
+      }
     });
-  
-// Add an event listener for the 'ended' event to handle continuous playback
-this.audioPlayer.addEventListener('ended', this.playNext.bind(this));
+
+    // Add an event listener for the 'ended' event to handle continuous playback
+    this.audioPlayer.addEventListener('ended', this.playNext.bind(this));
 
     // Notify change listeners about the new playback state
     this.notifyChange();
-  
+
     // Save the current playing song to local storage
     localStorage.setItem('currentPlayingSong', JSON.stringify({
       base: song.audioDataUrl,
@@ -35,14 +38,15 @@ this.audioPlayer.addEventListener('ended', this.playNext.bind(this));
     }));
   }
   
-  handleUserInteraction = () => {
+   handleUserInteraction = () => {
     // Remove the click event listener
     document.removeEventListener('click', this.handleUserInteraction);
-  
+
     // Try playing the audio
-    this.audioPlayer.play();
+    if (!this.isPaused) {
+      this.audioPlayer.play();
+    }
   };
-  
   
 
 

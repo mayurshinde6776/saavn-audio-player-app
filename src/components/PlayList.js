@@ -1,12 +1,12 @@
-// PlayList.js
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from './Card';
+import NowPlaying from './NowPlaying'; // Import the NowPlaying component
 import AudioService from '../services/AudioService';
 import { Container, Row, Col } from 'react-bootstrap';
 
 const PlayList = () => {
   const [songs, setSongs] = React.useState([]);
-  const [selectedSong, setSelectedSong] = React.useState(null);
+  const [selectedCard, setSelectedCard] = useState(null); // New state to track the selected card
 
   useEffect(() => {
     // Retrieve songs from localStorage
@@ -32,28 +32,28 @@ const PlayList = () => {
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const handleSongSelect = (song) => {
-    setSelectedSong(song);
-    AudioService.playAudio(song);
+    AudioService.playAudio(song, true); // Pass true to indicate played by card
+    setSelectedCard(song); // Set the selected card
   };
 
   return (
-    <Container className='container-flex'>
-      <section>
-        <h2>Welcome to Your Audio Player App</h2>
-        <p>Upload and play your favorite audio files.</p>
-      </section>
-
-      <section>
-        <Row>
+    <Container className='container '>
+      <div className='text-center mx-auto my-4'>
+        <h2>Welcome to Saavn Audio Player</h2>
+        <p>Upload and play your favorite songs.</p>
+      </div>
+      <div className='mx-auto'>
+        <Row xs={1} sm={2} md={3} lg={4}>
           {songs.map((song, index) => (
-            <Col key={index} xs={12} sm={6} md={4} lg={3}>
+            <Col key={index}>
               <Card song={song} onSelect={() => handleSongSelect(song)} />
             </Col>
           ))}
         </Row>
-      </section>
-
-    
+      </div>
+      <div>
+      <NowPlaying  selectedCard={selectedCard} />
+      </div>
     </Container>
   );
 };

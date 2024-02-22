@@ -4,7 +4,7 @@ import { Card as BootstrapCard } from 'react-bootstrap';
 
 const Card = ({ song, onSelect }) => {
   return (
-    <BootstrapCard style={{ width: '15rem', border: 'none', cursor: 'pointer' }} onClick={onSelect}>
+    <BootstrapCard style={{  border: 'none', cursor: 'pointer' }} onClick={onSelect}>
       <BootstrapCard.Img
         variant="top"
         src={song.coverImageDataUrl}
@@ -12,7 +12,9 @@ const Card = ({ song, onSelect }) => {
         style={{ height: '10rem' }}
       />
       <BootstrapCard.Body>
-        <BootstrapCard.Title>{song.title}</BootstrapCard.Title>
+        <BootstrapCard.Title style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', textAlign:'center' }}>
+          {song.title}
+        </BootstrapCard.Title>
       </BootstrapCard.Body>
     </BootstrapCard>
   );
