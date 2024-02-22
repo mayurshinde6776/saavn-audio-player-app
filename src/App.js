@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes , Navigate} from 'react-router-dom';
 import Header from './components/Header';
-import Footer from './components/Footer';
 import PlayList from './components/PlayList';
 import UploadForm from './components/UploadForm';
+import NowPlaying from './components/NowPlaying';
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
           <Route path="upload-song" element={<UploadForm/>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-       
+       <NowPlaying/>
       </div>
     </Router>
   );

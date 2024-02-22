@@ -7,7 +7,7 @@ function Header() {
     <>
       <Navbar bg="light" data-bs-theme="light">
         <Container>
-          <Navbar.Brand href="/">Saavn</Navbar.Brand>
+          <Navbar.Brand href="/" style={{ fontWeight:'700'}}>Saavn</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/">PlayList</Nav.Link>
             <Nav.Link href="/upload-song">Upload Songs</Nav.Link>

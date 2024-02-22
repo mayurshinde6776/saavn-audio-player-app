@@ -1,21 +1,39 @@
 // PlayList.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Card from './Card';
-import NowPlaying from './NowPlaying';
+import AudioService from '../services/AudioService';
 import { Container, Row, Col } from 'react-bootstrap';
 
 const PlayList = () => {
-  const [songs, setSongs] = useState([]);
-  const [selectedSong, setSelectedSong] = useState(null);
+  const [songs, setSongs] = React.useState([]);
+  const [selectedSong, setSelectedSong] = React.useState(null);
 
   useEffect(() => {
     // Retrieve songs from localStorage
     const storedSongs = JSON.parse(localStorage.getItem('uploadedAudioFiles')) || [];
     setSongs(storedSongs);
+
+    // Set the playlist in the AudioService
+    AudioService.setPlaylist(storedSongs);
   }, []);
+
+  useEffect(() => {
+    // Add an event listener for beforeunload to save the state
+    const handleBeforeUnload = () => {
+      AudioService.saveState();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      // Remove the event listener when the component is unmounted
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const handleSongSelect = (song) => {
     setSelectedSong(song);
+    AudioService.playAudio(song);
   };
 
   return (
@@ -35,11 +53,7 @@ const PlayList = () => {
         </Row>
       </section>
 
-      {selectedSong && (
-        <div className='mb-5'>
-          <NowPlaying selectedSong={selectedSong} />
-        </div>
-      )}
+    
     </Container>
   );
 };
